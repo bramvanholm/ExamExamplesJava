@@ -1,0 +1,23 @@
+package chapter5;
+
+public class StringOperations {
+
+	static String reverse(String word) {
+		String reverseWord ="";
+		int wordLength = word.length();
+		for (int i = wordLength-1; i>=0; i--) {
+			reverseWord += word.charAt(i);
+		}
+		return reverseWord;
+	}
+	
+	static boolean isPalindrome(String word) {
+		return word.equals(reverse(word));
+	}
+	
+	public static void main(String[] args) {
+		StringOperations op = new StringOperations();
+		System.out.println(op.reverse("word"));
+		System.out.println(op.isPalindrome("racecar"));
+	}
+}
