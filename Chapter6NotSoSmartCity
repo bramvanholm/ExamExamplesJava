@@ -1,0 +1,83 @@
+package chapter6;
+
+public class NotSoSmartCity {
+
+	//int nbInhabitants removed, to have a single version of the truth. The length of the inhabitantNames array should always be equal to the number of inhabitants, so need to explicitly store this number.
+	private String[] inhabitantNames;
+	private double totalAmountOfMoney;
+	private String name;	
+
+	public NotSoSmartCity(String name,double totalAmountOfMoney, String[] inhabitantNames){
+		
+		this.name = name;
+		if(this.name == null){
+			this.name = "UNKNOWN";
+		}
+		//A double has a default value of 0, even when not explicitly initialized.
+		this.totalAmountOfMoney = totalAmountOfMoney;
+		
+		//In case null is provided as inhabitantNames, we assign an empty list
+		this.inhabitantNames = inhabitantNames;
+		if(this.inhabitantNames == null){
+			this.inhabitantNames = new String[]{};
+		}
+	}	
+
+	public void printCityNameForEachInhabitant(){
+		for(int i = inhabitantNames.length; i!=0;i--){
+			System.out.println(this.name);
+		}
+	}	
+
+	//Java will not throw an Exception when dividing by zero, but will return a special 'infinity' value.
+	public double getAverageAmountOfMoney(){
+		return totalAmountOfMoney/ inhabitantNames.length;
+	}
+
+
+	public static String babyNameGenerator(String beginning, int lettersToAdd){
+		//Here we add a check to see if the number of letters to add is not negative. if it is, we throw an exception so the programmer is aware that there is a flaw in his code that causes lettersToAdd to be negative.
+		if(lettersToAdd < 0){
+			throw new IllegalArgumentException("You are trying to add a negative amount of letters to the beginning.");
+		}
+		if(0 == lettersToAdd){
+			return beginning;
+		}
+		else{
+			return babyNameGenerator(beginning+getRandomLetter(), lettersToAdd -1);
+		}		
+	}
+
+	private static char getRandomLetter(){
+		String alphabet = "abcdefghijklmnopqrstuvwxyz";
+		return alphabet.charAt((int) (Math.random()*alphabet.length()));
+	}
+
+	public void printInhabitantNames(){	
+		for(int i=0; i < inhabitantNames.length; i++){
+			System.out.println(inhabitantNames[i]);
+		}
+	}
+
+	public static void main(String[] args){		
+		//ArrayIndexOutOfBoundsException
+		NotSoSmartCity city1 = new NotSoSmartCity("DumboTown", 4000.5, new String[]{"Ralph", "Stephen", "Tutu", "Alex"});
+		city1.printInhabitantNames();
+
+
+		//Nullpointer exception
+		NotSoSmartCity city2 = new NotSoSmartCity("DumboTown", 4000.5, null);
+		city2.printInhabitantNames();
+
+
+		//Infinite loop
+		NotSoSmartCity city3 = new NotSoSmartCity("DumboTown", 4000.5, new String[]{"Ralph", "Stephen", "Tutu", "Alex"});
+		city3.printCityNameForEachInhabitant();
+		
+		//StackOverflowError
+				System.out.println(NotSoSmartCity.babyNameGenerator("Jo", -1));
+
+	}
+
+}
+
